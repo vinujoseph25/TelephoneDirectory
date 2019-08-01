@@ -1,0 +1,86 @@
+<h2>Edit Operator and PriceList</h2>
+<form [formGroup]="priceListCollectionForm">
+  <hr />
+  <button type="button" (click)="addOperator()" class="cta-small" [disabled]="false">Add Operator</button>
+  <div formArrayName="priceListCollection">
+    <div class="priceList" *ngFor="
+        let priceList of priceListCollectionForm.get('priceListCollection').controls;
+        let operatorIndex = index
+      " [formGroupName]="operatorIndex">
+      <div class="operator">
+        <div>Operator</div>
+        <div>
+          <input formControlName="operatorName" />
+          <button class="cta-cancel" (click)="deleteOperator(operatorIndex)">x</button>
+        </div>
+      </div>
+      <hr />
+      <button type="button" (click)="addItem(priceList)" class="cta-small" [disabled]="false">Add Item</button>
+      <div formArrayName="priceList">
+        <div class="item" *ngFor="
+            let item of priceList.get('priceList').controls;
+            let itemIndex = index
+          " [formGroupName]="itemIndex">
+          <div class="prefix">
+            <div>Number Prefix</div>
+            <div>
+              <input formControlName="prefix" (keypress)="keyPressPrefix($event)" minlength=1 maxlength=10 />
+              <button class="cta-cancel" (click)="deleteItem(priceList, itemIndex)">x</button>
+            </div>
+          </div>
+          <div class="cost">
+            <div>Cost</div>
+            <div>
+              <input formControlName="cost" (keypress)="keyPressCost($event)" minlength=1 />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="cta" (click)="saveOperator()" [disabled]="priceListCollectionForm.invalid">
+    Save Operator
+  </button>
+</form>
+<br>
+<br>
+<br>
+
+<div *ngIf="operatorCollection">
+  <h2>Operator List</h2>
+  <hr />
+  <div *ngFor="let priceList of operatorCollection.priceListCollection">
+    <h3>Operator {{priceList.operatorName}}</h3>
+    <table>
+      <tr>
+        <th>Number Prefix</th>
+        <th>Cost</th>
+      </tr>
+      <tr *ngFor="let item of priceList.priceList">
+        <td>{{ item.prefix }}</td>
+        <td>{{ item.cost }}</td>
+      </tr>
+    </table>
+  </div>
+  <br>
+  <br>
+  <h2>Check Number</h2>
+  <hr />
+  <form [formGroup]="telephoneNumberForm">
+    <label class="telephoneNumberForm">
+      Telephone Number :
+      <input id="telephoneNumber" type="text" formControlName="telephoneNumber" (keypress)="keyPressPrefix($event)"
+        minlength=10 maxlength=10>
+      <div *ngIf="submitted && telephoneNumberForm.controls.telephoneNumber.errors" class="error">
+        <div *ngIf="telephoneNumberForm.controls.telephoneNumber.errors.required">Telephone Number required.</div>
+        Telephone Number length should 10.
+      </div>
+    </label>
+    <button type="button" (click)="onSubmit()" class="cta"
+      [disabled]=" telephoneNumberForm.controls.telephoneNumber.errors">Check Cost</button>
+    <div *ngIf="resultHide">
+      <h5 *ngIf="success && finalItem">Cheapest Operator is {{finalItem.operatorName}}</h5>
+      <h5 *ngIf="success && !finalItem">No records found</h5>
+    </div>
+  </form>
+</div>
