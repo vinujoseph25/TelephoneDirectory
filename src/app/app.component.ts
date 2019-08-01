@@ -179,7 +179,7 @@ export class AppComponent {
           this.finalItem = element;
         } else if (this.finalItem.cost > element.cost) {
           this.finalItem = element;
-        } else if (this.finalItem.cost = element.cost) {
+        } else if (this.finalItem.cost === element.cost) {
           this.finalItem.operatorName = this.finalItem.operatorName + " & " + element.operatorName;
         }
       }
