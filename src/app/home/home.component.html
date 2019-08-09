@@ -1,0 +1,23 @@
+<h2>Check Number</h2>
+<hr />
+<br>
+<form [formGroup]="telephoneNumberForm">
+  <label class="telephoneNumberForm">
+    Telephone Number :
+    <input id="telephoneNumber" type="text" formControlName="telephoneNumber" (keypress)="keyPressPrefix($event)"
+      minlength=10 maxlength=15>
+    <div *ngIf="submitted && telephoneNumberForm.controls.telephoneNumber.errors" class="error">
+      <div *ngIf="telephoneNumberForm.controls.telephoneNumber.errors.required">Telephone Number required.</div>
+      Telephone Number minimum length 10.
+    </div>
+  </label>
+  <button type="button" (click)="onSubmit()" class="cta"
+    [disabled]=" telephoneNumberForm.controls.telephoneNumber.errors">Check Cost</button>
+  <div *ngIf="resultHide">
+    <h5 *ngIf="success && !(operatorCollection.priceListCollection.length > 0)">No Operator Collection</h5>
+    <div *ngIf="success && (operatorCollection.priceListCollection.length > 0)">
+      <h5 *ngIf="finalItem">Cheapest Operator is {{finalItem.operatorName}}</h5>
+      <h5 *ngIf="!finalItem">No records found</h5>
+    </div>
+  </div>
+</form>

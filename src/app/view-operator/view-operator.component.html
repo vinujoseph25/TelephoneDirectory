@@ -1,0 +1,20 @@
+<div *ngIf="operatorCollection">
+  <h2>{{ appTitle }}</h2>
+  <hr />
+  <div *ngFor="let priceList of operatorCollection.priceListCollection">
+    <h3>Operator {{priceList.operatorName}}</h3>
+    <table>
+      <tr>
+        <th>Number Prefix</th>
+        <th>Cost</th>
+      </tr>
+      <tr *ngFor="let item of priceList.priceList">
+        <td>{{ item.prefix }}</td>
+        <td>{{ item.cost }}</td>
+      </tr>
+    </table>
+  </div>
+  <br>
+  <br>
+
+</div>
